@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wanderlust AI - Your Smart Travel Planner</title>
+    <link rel="icon" type="image/svg+xml" href="/logo.svg"> <!-- Placeholder for actual logo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --header-height: 64px; /* Default header height */
+        --brand-hue: 210; /* Base hue for blue */
+        --brand-saturation: 80%;
+        --brand-lightness: 55%;
+        
+        --brand-DEFAULT: hsl(var(--brand-hue) var(--brand-saturation) var(--brand-lightness));
+        --brand-light: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness) + 15%));
+        --brand-dark: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness) - 10%));
+        --brand-darker: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness) - 20%));
+
+        /* Semantic colors based on brand */
+        --color-primary: var(--brand-DEFAULT);
+        --color-primary-hover: var(--brand-dark);
+        --color-primary-focus-ring: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness) + 20%));
+
+        --color-background: hsl(220, 25%, 97%); /* Light slate-ish */
+        --color-foreground: hsl(220, 15%, 20%); /* Dark slate-ish */
+        --color-card-background: hsl(0, 0%, 100%);
+        --color-border: hsl(220, 20%, 88%);
+
+        /* Dark theme overrides */
+        --dark-color-background: hsl(222, 25%, 7%); /* Darker slate-ish */
+        --dark-color-foreground: hsl(220, 15%, 90%); /* Lighter slate-ish */
+        --dark-color-card-background: hsl(222, 22%, 12%);
+        --dark-color-border: hsl(222, 18%, 25%);
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .dark body {
+        background-color: var(--dark-color-background);
+        color: var(--dark-color-foreground);
+      }
+      .dark .theme-dark\:bg-card { background-color: var(--dark-color-card-background); }
+      .dark .theme-dark\:border-card { border-color: var(--dark-color-border); }
+      
+      /* Global transition for dark mode */
+      * {
+        transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .page-transition-enter {
+        animation: pageFadeIn 0.5s ease-out forwards;
+      }
+      @keyframes pageFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      /* General interactive element enhancements */
+      .interactive-element {
+        transition-property: background-color, border-color, color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms; /* slightly faster default */
+      }
+      .interactive-element:hover {
+        /* Generic hover, can be overridden by specific utility classes like hover:bg-blue-600 */
+        filter: brightness(1.1); 
+      }
+      .interactive-element:focus-visible {
+        outline: 2px solid var(--color-primary-focus-ring);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 3px hsla(var(--brand-hue), var(--brand-saturation), var(--brand-lightness), 0.3);
+      }
+      .interactive-element:active {
+        transform: scale(0.97);
+        filter: brightness(0.95);
+      }
+
+      /* Specific styles for buttons, can be more granular */
+      .button-interactive {
+        /* inherits from interactive-element */
+      }
+      .button-interactive:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        filter: none;
+        transform: none;
+      }
+
+      /* For list items or cards that are interactive */
+      .list-item-interactive:hover {
+        background-color: hsla(var(--brand-hue), var(--brand-saturation), var(--brand-lightness), 0.1);
+      }
+      .list-item-interactive:focus-visible {
+        background-color: hsla(var(--brand-hue), var(--brand-saturation), var(--brand-lightness), 0.15);
+        outline: 1px solid var(--color-primary-focus-ring);
+        outline-offset: -1px; /* inset ring effect */
+      }
+      
+      /* Card lift effect */
+      .card-interactive-lift {
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      }
+      .card-interactive-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.08);
+      }
+      .dark .card-interactive-lift:hover {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.15);
+      }
+      
+      /* Animations */
+      @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+      .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+      
+      @keyframes fadeInScaleUp { 0% { opacity: 0; transform: scale(0.97) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+      .animate-fadeInScaleUp { animation: fadeInScaleUp 0.3s ease-out forwards; }
+
+      @keyframes fadeInDown { from { opacity:0; transform: translate3d(0, -20px, 0); } to { opacity:1; transform: translate3d(0, 0, 0); } }
+      .animate-fade-in-down { animation: fadeInDown 0.5s ease-out forwards; }
+      
+      @keyframes fadeInUp { from { opacity:0; transform: translate3d(0, 20px, 0); } to { opacity:1; transform: translate3d(0, 0, 0); } }
+      .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+      
+      /* Used for individual item cards in lists/grids */
+      @keyframes itemCardAnimateIn { 
+        0% { opacity: 0; transform: translateY(10px) scale(0.98); } 
+        100% { opacity: 1; transform: translateY(0) scale(1); } 
+      }
+      .item-card-animate-in { animation: itemCardAnimateIn 0.4s ease-out forwards; opacity: 0; }
+
+       /* For text pop-in effect */
+      @keyframes textPopIn {
+        0% { opacity: 0; transform: translateY(8px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .animate-text-pop-in { animation: textPopIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; opacity: 0; }
+
+
+      /* For the slide-out menu specifically */
+      .slide-out-menu-enter { transform: translateX(-100%); }
+      .slide-out-menu-enter-active { transform: translateX(0); transition: transform 250ms ease-out; }
+      .slide-out-menu-exit { transform: translateX(0); }
+      .slide-out-menu-exit-active { transform: translateX(-100%); transition: transform 250ms ease-in; }
+
+      .backdrop-enter { opacity: 0; }
+      .backdrop-enter-active { opacity: 1; transition: opacity 250ms ease-out; }
+      .backdrop-exit { opacity: 1; }
+      .backdrop-exit-active { opacity: 0; transition: opacity 250ms ease-in; }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script>
+      // Initialize the promise for Google Maps API loading
+      window.googleMapsApiInitializedPromise = new Promise((resolve) => {
+        window.resolveGoogleMapsApiInitialized = resolve;
+      });
+
+      function initMap() {
+        // console.log("Google Maps API script loaded and initMap called.");
+        if (window.resolveGoogleMapsApiInitialized) {
+          window.resolveGoogleMapsApiInitialized();
+        } else {
+          // console.warn("resolveGoogleMapsApiInitialized was not set on window when initMap was called.");
+          // Fallback in case initMap is called before the promise setup (unlikely with correct script tag placement)
+          window.googleMapsApiInitializedPromise = Promise.resolve();
+        }
+      }
+    </script>
+    <script
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places,marker&callback=initMap"
+      onerror="console.error('Failed to load Google Maps API script. Check API key and network.')"
+    ></script>
+     <!-- IMPORTANT: Remember to replace YOUR_API_KEY with your actual Google Maps API key -->
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "name": "Optimizing dark mode ",
+  "description": "An AI-powered travel planner to help you discover, plan, and experience your dream adventures.",
+  "prompt": ""
+}
