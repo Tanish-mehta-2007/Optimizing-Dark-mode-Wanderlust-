@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 // import type { AuthContextType } from '../../contexts/AuthContext'; // Type is inferred
 import { LanguageContext, useTranslation } from '../../contexts/LanguageContext'; // Import LanguageContext
 import { SUPPORTED_LANGUAGES } from '../../constants'; // Corrected import for SUPPORTED_LANGUAGES
+import ThemeToggleButton from './ThemeToggleButton'; // Import ThemeToggleButton
 
 // Icons
 const WanderlustAppLogoIcon = () => ( 
@@ -146,6 +147,9 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({
 
         {/* Right Section: Language, Notifications & User/Auth */}
         <div className="flex items-center gap-2 sm:gap-3">
+            {/* Theme Toggle Button */}
+            <ThemeToggleButton />
+
              {/* Language Switcher */}
             <div ref={languageDropdownRef} className="relative">
               <button
